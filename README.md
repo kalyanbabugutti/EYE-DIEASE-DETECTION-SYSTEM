@@ -18,6 +18,7 @@ PostgreSQL-ready backend structure
 The system predicts 10 disease classes and generates visual explanations using heatmaps.
 
 📁 Project Structure
+```
 TEST/
 │── backend_auth/               # User Authentication (bcrypt, JWT)
 │── frontend/                   # HTML/CSS/JS Frontend UI
@@ -34,7 +35,7 @@ TEST/
 │── main.py                     # FastAPI backend + prediction route
 │── .vscode/                    # Editor settings
 └── README.md                   # Project Documentation
-
+```
 🚀 Features
 🧠 Deep Learning Model
 
