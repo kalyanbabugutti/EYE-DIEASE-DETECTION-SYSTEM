@@ -1,93 +1,52 @@
-🩺 Eye Disease Detection System (MobileNetV2 + FastAPI + JWT + Grad-CAM)
+🩺 Eye Disease Detection System
+(MobileNetV2 + FastAPI + JWT Auth + Grad-CAM)
 
-This project is a complete AI-powered web application for detecting eye diseases from retinal fundus images.
-It includes:
+A full-stack AI application for detecting 10 eye diseases from retinal fundus images. Built using MobileNetV2, FastAPI, JWT authentication, and Grad-CAM explainability, with a clean HTML/CSS/JS frontend and PostgreSQL-ready backend.
 
-A deep learning model (MobileNetV2)
+📌 Features
+🧠 Deep Learning Model (MobileNetV2)
 
-A secure FastAPI backend
+Transfer-learning model trained on 10 retinal diseases
 
-JWT authentication
+Lightweight and fast
 
-Grad-CAM explainability
-
-HTML/CSS/JS frontend pages
-
-PostgreSQL-ready backend structure
-
-The system predicts 10 disease classes and generates visual explanations using heatmaps.
-
-📁 Project Structure
-```
-Eye Disease/
-│── backend_auth/             # User Authentication (bcrypt, JWT)
-│── frontend/                   # HTML/CSS/JS Frontend UI
-│   ├── index.html
-│   ├── login.html
-│   ├── register.html
-│   ├── dashboard.html
-│   ├── script.js
-│   └── style.css
-│── model/                      # Trained Keras Models
-│   ├── mobile_model.h5
-│   └── mobile.h5
-│── static/                     # Uploaded images + GradCAM output
-│── main.py                     # FastAPI backend + prediction route
-│── .vscode/                    # Editor settings
-└── README.md                   # Project Documentation
-```
-🚀 Features
-🧠 Deep Learning Model
-
-Uses MobileNetV2 trained on 10 eye diseases
-
-Lightweight, fast, and accurate
-
-Saved in .h5 format for easy FastAPI loading
+Loaded once at startup
 
 🛡️ Authentication
 
-Secure login & registration system
+Login & registration
 
-Passwords hashed using bcrypt
+Password hashing with bcrypt
 
-Access controlled using JWT tokens
+JWT-based protected routes
 
-Protected /predict endpoint
-
-🗄 Database (PostgreSQL Ready)
-
-Backend structured to work with PostgreSQL
-
-Environment variables stored in .env
-
-Users + Predictions can be stored
+/predict endpoint secured
 
 🔥 Grad-CAM Explainability
 
-Generates heatmaps for predictions
+Heatmaps highlight important image regions
 
-Shows which region of the eye influenced the model
+Saved automatically in static/
 
 🌐 Frontend
 
-Responsive HTML/CSS/JS pages:
+Login, register, dashboard pages
 
-Login
+Image upload & output display
 
-Register
-
-Dashboard
-
-Image upload + output display
+Responsive styling
 
 ⚡ FastAPI Backend
 
 High-performance async API
 
-Model loaded once on startup
+Organized and scalable structure
 
-Returns disease, confidence, description, heatmap path
+🗄 Database (PostgreSQL Ready)
+
+.env file support
+
+User & prediction logging (optional)
 
 🖼 Supported Eye Diseases
 
@@ -110,43 +69,57 @@ Pterygium
 Retinal Detachment
 
 Retinitis Pigmentosa
-
+```
+📁 Project Structure
+Eye Disease/
+│── backend_auth/             # Authentication (bcrypt, JWT)
+│── frontend/                 # HTML/CSS/JS UI
+│   ├── index.html
+│   ├── login.html
+│   ├── register.html
+│   ├── dashboard.html
+│   ├── script.js
+│   └── style.css
+│── model/                    # Trained Keras Models
+│   ├── mobile_model.h5
+│   └── mobile.h5
+│── static/                   # Uploaded images + Grad-CAM results
+│── main.py                   # FastAPI app + prediction logic
+│── .vscode/                  # Editor settings
+└── README.md
+```
 🔧 Installation & Setup
-1️⃣ Clone the Repo
+1️⃣ Clone the Repository
 git clone https://github.com/your-username/eye-disease-detection.git
 cd eye-disease-detection
 
-2️⃣ Create a Virtual Environment
+2️⃣ Create Virtual Environment
 python -m venv venv
 venv/Scripts/activate  # Windows
 
-3️⃣ Install Requirements
+3️⃣ Install Dependencies
 pip install -r requirements.txt
 
-4️⃣ Set Up Environment Variables
-
-Create a .env file:
-
+4️⃣ Create .env File
 SECRET_KEY=your_secret_key
 ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=30
 
-# PostgreSQL (if used)
 DATABASE_URL=postgresql+asyncpg://user:password@localhost/dbname
 
-5️⃣ Run FastAPI Server
+5️⃣ Run the Server
 uvicorn main:app --reload
 
-6️⃣ Open API Docs
-
-Visit:
-
+6️⃣ Access API Docs
 http://127.0.0.1:8000/docs
 
 📤 Prediction Workflow
-1. User logs in → Gets JWT Token
-2. Upload Image
-3. FastAPI:
+
+User logs in → receives JWT
+
+Uploads retinal fundus image
+
+Backend:
 
 Preprocesses image
 
@@ -154,88 +127,72 @@ Runs MobileNetV2 model
 
 Generates Grad-CAM heatmap
 
-Returns JSON response
-
-4. Dashboard displays:
+Response includes:
 
 Predicted disease
 
-Confidence %
+Confidence
 
-Heatmap visualization
+Heatmap path
 
-👨‍💻 Backend Authentication (JWT)
-
-Protected route:
-
-@app.post("/predict")
-async def predict(file: UploadFile = File(...), current_user: dict = Depends(get_current_user)):
-    ...
-
-
-Any request must include:
-
-Authorization: Bearer <JWT_TOKEN>
-
-📸 Grad-CAM Explainability
-
-Grad-CAM highlights the region influencing the model.
-Generated images are stored in:
-
-/static/uploads/
-
-
-Example output:
-
+Example Response
 {
   "disease": "Glaucoma",
   "confidence": 98.42,
   "gradcam_path": "/static/uploads/gradcam_image.jpg"
 }
 
-💾 Model Training (MobileNetV2)
+👨‍💻 JWT Authentication Example
+@app.post("/predict")
+async def predict(
+    file: UploadFile = File(...),
+    current_user: dict = Depends(get_current_user)
+):
+    ...
 
-Training script includes:
+
+Header required:
+
+Authorization: Bearer <JWT_TOKEN>
+
+🧪 Model Training Summary
+
+MobileNetV2 transfer learning
 
 Data augmentation
 
-Transfer learning
+70 epochs
 
-70 epochs training
-
-Plots for accuracy and loss
+Accuracy/loss curves
 
 Confusion matrix
 
 Classification report
 
-Model saved as:
+Saved as model/mobile_model.h5
 
-model/mobile_model.h5
-
-🛠 Technologies Used
-Component	Tech
+🛠 Tech Stack
+Component	Technology
 Backend	FastAPI
-Frontend	HTML, CSS, JavaScript
+Frontend	HTML, CSS, JS
 AI Model	MobileNetV2 (TensorFlow/Keras)
-Security	JWT, bcrypt hashing
 Database	PostgreSQL (asyncpg)
+Security	JWT + bcrypt
 Explainability	Grad-CAM
 Storage	Static files
 📌 Future Enhancements
 
-Deploy with Docker + Nginx
+Docker + Nginx deployment
 
-Add multi-disease detection
+Multi-disease classification
 
-Add VLM (Vision-Language Model) explanations
+VLM-based explanations
 
-Add admin panel
+Admin dashboard
 
-Add training dashboard
+Training monitoring
 
 👤 Author
 
-KALYAN BABU GUTTI 
+Kalyan Babu Gutti
 AI/ML Developer • CSE Student
-Passionate about Deep Learning, FastAPI & Full-Stack Engineering
