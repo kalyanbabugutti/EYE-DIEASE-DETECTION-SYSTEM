@@ -19,8 +19,8 @@ The system predicts 10 disease classes and generates visual explanations using h
 
 📁 Project Structure
 ```
-TEST/
-│── backend_auth/               # User Authentication (bcrypt, JWT)
+Eye Disease/
+│── backend_auth/             # User Authentication (bcrypt, JWT)
 │── frontend/                   # HTML/CSS/JS Frontend UI
 │   ├── index.html
 │   ├── login.html
